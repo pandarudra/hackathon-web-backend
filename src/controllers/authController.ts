@@ -163,3 +163,5 @@ export const authTokenRefresh = async (
     res.status(403).json({ message: "Invalid refresh token" });
   }
 };
+
+export const getUserLevel = async (req: Request, res: Response) => {};
