@@ -34,6 +34,23 @@ const hackathonSchema = new mongoose.Schema(
         submittedAt: { type: Date, default: Date.now },
       },
     ],
+    teams: [
+      {
+        teamName: { type: String, required: true },
+        admin: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        members: [
+          {
+            user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+            joinedAt: { type: Date, default: Date.now },
+          },
+        ],
+        chatRoomId: { type: String, required: true },
+      },
+    ],
   },
   {
     timestamps: true,
