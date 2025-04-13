@@ -1,0 +1,116 @@
+### Auth APIs
+# Sign Up
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "username": "johndoe",
+  "email": "johndoe@example.com",
+  "password": "password123",
+  "phone": "1234567890",
+  "city": "New York",
+  "state": "NY",
+  "country": "USA",
+  "postalCode": "10001",
+  "role": "user"
+}
+
+# Sign In
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+{
+  "emailOrUsername": "johndoe",
+  "password": "password123"
+}
+
+# Token Refresh
+POST http://localhost:3000/api/auth/refresh
+
+### Hackathon APIs
+# Create Hackathon
+POST http://localhost:3000/api/event/create
+Content-Type: application/json
+
+{
+  "title": "Hackathon 2025",
+  "description": "An amazing hackathon",
+  "startDate": "2025-05-01",
+  "endDate": "2025-05-03",
+  "prize": "5000 USD",
+  "organizerId": "organizer123"
+}
+
+# List Hackathons
+GET http://localhost:3000/api/event/list
+
+# Join Hackathon
+POST http://localhost:3000/api/event/join
+Content-Type: application/json
+
+{
+  "hackathonId": "hackathon123",
+  "userId": "user123"
+}
+
+# Get Hackathons by User
+GET http://localhost:3000/api/event/joined/user123
+
+# Submit Project
+POST http://localhost:3000/api/event/submit/hackathon123
+Content-Type: application/json
+
+{
+  "userId": "user123",
+  "title": "Project Alpha",
+  "description": "A revolutionary project",
+  "repoLink": "https://github.com/user/project-alpha",
+  "liveLink": "https://project-alpha.com"
+}
+
+### Team APIs
+# Create Team
+POST http://localhost:3000/api/team/create
+Content-Type: application/json
+
+{
+  "hackathonId": "hackathon123",
+  "teamName": "Team Alpha",
+  "adminId": "user123"
+}
+
+# Join Team
+POST http://localhost:3000/api/team/join
+Content-Type: application/json
+
+{
+  "chatRoomId": "room123",
+  "userId": "user456"
+}
+
+### Socket Events
+# Connect to Socket
+GET ws://localhost:3000/socket
+
+# Emit Event (Join Room)
+Content-Type: application/json
+
+{
+  "event": "joinRoom",
+  "data": {
+    "hackathonId": "hackathon123"
+  }
+}
+
+# Emit Event (Send Chat Message)
+Content-Type: application/json
+
+{
+  "event": "chatMessage",
+  "data": {
+    "hackathonId": "hackathon123",
+    "message": "Hello team!",
+    "sender": "user123"
+  }
+}
