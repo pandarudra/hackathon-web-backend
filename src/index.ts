@@ -6,7 +6,7 @@ import { connectDB } from "./configs/dbConfig";
 import { socketSetup } from "./sockets/appSocket";
 
 const server = createServer(app);
-const io = new Server(server, {
+export const io = new Server(server, {
   cors: {
     origin: "*",
   },

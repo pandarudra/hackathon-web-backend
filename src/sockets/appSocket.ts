@@ -5,9 +5,8 @@ export const socketSetup = (io: Server) => {
   io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
-    socket.on("joinRoom", (hackathonId: string) => {
-      socket.join(hackathonId);
-      console.log(`User ${socket.id} joined room: ${hackathonId}`);
+    socket.on("joinRoom", (roomID: string) => {
+      socket.join(roomID);
     });
 
     socket.on("chatMessage", async ({ hackathonId, message, sender }) => {

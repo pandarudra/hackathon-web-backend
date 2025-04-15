@@ -6,13 +6,14 @@ import {
   listHackathons,
   submitProject,
 } from "../controllers/hackathonController";
+import { authMiddleware } from "../utils/auth";
 
 const eventRouter = express.Router();
 
-eventRouter.post("/create", createHackathon);
-eventRouter.get("/list", listHackathons);
-eventRouter.post("/join", joinHackathon);
-eventRouter.get("/joined/:userId", getHackathonsByUser);
-eventRouter.post("/submit/:hackathonId", submitProject);
+eventRouter.post("/create", authMiddleware, createHackathon);
+eventRouter.get("/list", authMiddleware, listHackathons);
+eventRouter.post("/join", authMiddleware, joinHackathon);
+eventRouter.get("/joined/:userId", authMiddleware, getHackathonsByUser);
+eventRouter.post("/submit/:hackathonId", authMiddleware, submitProject);
 
 export default eventRouter;

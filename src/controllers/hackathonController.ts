@@ -1,19 +1,24 @@
 import { Request, Response } from "express";
 import Hackathon from "../models/hackathonModel";
+import { RequestWithUser } from "../utils/auth";
+import { v4 as uuidv4 } from "uuid";
 
 export const createHackathon = async (
-  req: Request,
+  req: RequestWithUser,
   res: Response
 ): Promise<any> => {
   try {
-    const { title, description, startDate, endDate, prize, organizerId } =
-      req.body;
+    const { title, description, startDate, endDate, prize } = req.body;
+    const user = req.user;
+    const organizerId = user?._id; // Assuming req.user contains the authenticated user
+    const hid = uuidv4().slice(0, 8); // Generate a unique ID for the hackathon
 
     if (!title || !startDate || !endDate || !organizerId) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
     const newHackathon = new Hackathon({
+      _id: hid,
       title,
       description,
       startDate,
@@ -50,12 +55,12 @@ export const listHackathons = async (
 };
 
 export const joinHackathon = async (
-  req: Request,
+  req: RequestWithUser,
   res: Response
 ): Promise<any> => {
   try {
-    const { hackathonId, userId } = req.body;
-
+    const { hackathonId } = req.body; // Assuming hackathonId is sent in the request body
+    const userId = req.user?._id; // Assuming req.user contains the authenticated user
     const hackathon = await Hackathon.findById(hackathonId);
     if (!hackathon) {
       return res.status(404).json({ message: "Hackathon not found" });
@@ -64,6 +69,7 @@ export const joinHackathon = async (
     const alreadyJoined = hackathon.participants.some(
       (p) => p.user?.toString() === userId
     );
+
     if (alreadyJoined) {
       return res
         .status(400)
