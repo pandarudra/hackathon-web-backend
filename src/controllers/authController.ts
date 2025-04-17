@@ -115,13 +115,13 @@ export const authSignIn = async (
     });
 
     res.status(200).json({
-      token: accessToken,
       user: {
         id: user._id,
         name: user.name,
         username: user.username,
         email: user.email,
         role: user.role,
+        token: accessToken,
       },
     });
   } catch (err) {
